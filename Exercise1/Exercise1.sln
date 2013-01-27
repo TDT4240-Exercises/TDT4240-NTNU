@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task1", "Task1\Task1.csproj", "{41042519-26FD-413A-920A-B6E7808B8D23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Content", "Exercise1Content\Content.contentproj", "{6363697A-2467-41AA-B47B-11EE1C7C019C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task2", "Task2\Task2.csproj", "{6BF96214-080B-4E4B-9380-3C216AC2EF2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task3", "Task3\Task3\Task3.csproj", "{90509BBE-CE8A-416D-B294-D71E625661BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task4", "Task4\Task4\Task4.csproj", "{721649AA-036D-42F0-8816-BF4C07A9E5B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41042519-26FD-413A-920A-B6E7808B8D23}.Debug|x86.ActiveCfg = Debug|x86
+		{41042519-26FD-413A-920A-B6E7808B8D23}.Debug|x86.Build.0 = Debug|x86
+		{41042519-26FD-413A-920A-B6E7808B8D23}.Release|x86.ActiveCfg = Release|x86
+		{41042519-26FD-413A-920A-B6E7808B8D23}.Release|x86.Build.0 = Release|x86
+		{6363697A-2467-41AA-B47B-11EE1C7C019C}.Debug|x86.ActiveCfg = Debug|x86
+		{6363697A-2467-41AA-B47B-11EE1C7C019C}.Release|x86.ActiveCfg = Release|x86
+		{6BF96214-080B-4E4B-9380-3C216AC2EF2D}.Debug|x86.ActiveCfg = Debug|x86
+		{6BF96214-080B-4E4B-9380-3C216AC2EF2D}.Debug|x86.Build.0 = Debug|x86
+		{6BF96214-080B-4E4B-9380-3C216AC2EF2D}.Release|x86.ActiveCfg = Release|x86
+		{6BF96214-080B-4E4B-9380-3C216AC2EF2D}.Release|x86.Build.0 = Release|x86
+		{90509BBE-CE8A-416D-B294-D71E625661BF}.Debug|x86.ActiveCfg = Debug|x86
+		{90509BBE-CE8A-416D-B294-D71E625661BF}.Debug|x86.Build.0 = Debug|x86
+		{90509BBE-CE8A-416D-B294-D71E625661BF}.Release|x86.ActiveCfg = Release|x86
+		{90509BBE-CE8A-416D-B294-D71E625661BF}.Release|x86.Build.0 = Release|x86
+		{721649AA-036D-42F0-8816-BF4C07A9E5B5}.Debug|x86.ActiveCfg = Debug|x86
+		{721649AA-036D-42F0-8816-BF4C07A9E5B5}.Debug|x86.Build.0 = Debug|x86
+		{721649AA-036D-42F0-8816-BF4C07A9E5B5}.Release|x86.ActiveCfg = Release|x86
+		{721649AA-036D-42F0-8816-BF4C07A9E5B5}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
