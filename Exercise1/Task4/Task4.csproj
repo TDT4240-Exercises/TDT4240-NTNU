@@ -142,6 +142,14 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PongContent\PongContent.contentproj">
+      <Project>{35FFDCE7-1C00-4E4C-8FC4-BD7A1BD229A6}</Project>
+      <Name>PongContent</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

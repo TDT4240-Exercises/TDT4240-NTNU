@@ -117,7 +117,7 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Exercise1Content\Content.contentproj">
+    <ProjectReference Include="..\Exercise1Content\Content.contentproj">
       <Project>{6363697A-2467-41AA-B47B-11EE1C7C019C}</Project>
       <Name>Content</Name>
       <XnaReferenceType>Content</XnaReferenceType>

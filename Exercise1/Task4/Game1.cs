@@ -18,6 +18,7 @@ namespace Task4
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont font;
 
         private Viewport viewPort;
         private Texture2D whiteTexture;
@@ -29,10 +30,16 @@ namespace Task4
         private const int PADDLE_WIDTH = 20;
         private const int BALL_SIZE = 10;
 
+        private int lPaddleMovementSpeed = 3;
+        private int rPaddleMovementSpeed = 3;
+
+        private int lPaddlePoints = 0;
+        private int rPaddlePoints = 0;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = "PongContent";
         }
 
         /// <summary>
@@ -47,6 +54,9 @@ namespace Task4
 
             whiteTexture = new Texture2D(GraphicsDevice, 1, 1);
             whiteTexture.SetData(new[] { Color.White });
+
+            font = Content.Load<SpriteFont>("SpriteFont1");
+
 
             viewPort = graphics.GraphicsDevice.Viewport;
 
@@ -80,6 +90,31 @@ namespace Task4
             // TODO: Unload any non ContentManager content here
         }
 
+        private void HandleInput(GameTime gameTime)
+        {
+            KeyboardState keyboard = Keyboard.GetState();
+
+            // Allows the game to exit
+            if (keyboard.IsKeyDown(Keys.Escape))
+            {
+                this.Exit();
+            }
+
+            // Paddle movement
+            bool lPlayerUp = keyboard.IsKeyDown(Keys.W);
+            bool lPlayerDn = keyboard.IsKeyDown(Keys.S);
+
+            bool rPlayerUp = keyboard.IsKeyDown(Keys.O);
+            bool rPlayerDn = keyboard.IsKeyDown(Keys.L);
+
+            if (lPlayerUp ^ lPlayerDn)
+                if (lPlayerUp)  leftPaddle.Y -= lPaddleMovementSpeed;
+                else            leftPaddle.Y += lPaddleMovementSpeed;
+            if (rPlayerUp ^ rPlayerDn)
+                if (rPlayerUp)  rightPaddle.Y -= rPaddleMovementSpeed;
+                else            rightPaddle.Y += rPaddleMovementSpeed;
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -87,6 +122,8 @@ namespace Task4
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            HandleInput(gameTime);
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -96,17 +133,48 @@ namespace Task4
             ball.Y += (int)ballVelocity.Y;
 
             //Bounce left wall
-            if (ball.X < 0)
+            if (ball.X < PADDLE_WIDTH)
             {
-                ball.X = 0;
-                ballVelocity.X = -ballVelocity.X;
+                if (ball.Y + ball.Height > leftPaddle.Y && ball.Y < leftPaddle.Y + leftPaddle.Height)
+                {
+                    ball.X = PADDLE_WIDTH;
+                    ballVelocity.X = -ballVelocity.X;
+                    ballVelocity.Y = ((ball.Y + (ball.Height / 2)) - (leftPaddle.Y + (leftPaddle.Height / 2))) / 8;
+                }
+                else
+                {
+                    rPaddlePoints++;
+                    ball.X = viewPort.Width / 2;
+                    ball.Y = viewPort.Height / 2;
+                }
             }
 
             //Bounce right wall
-            else if (ball.X + BALL_SIZE > viewPort.Width)
+            else if (ball.X + BALL_SIZE > viewPort.Width - PADDLE_WIDTH)
             {
-                ball.X = viewPort.Width - BALL_SIZE;
-                ballVelocity.X = -ballVelocity.X;
+                if (ball.Y + ball.Height > rightPaddle.Y && ball.Y < rightPaddle.Y + rightPaddle.Height)
+                {
+                    ball.X = viewPort.Width - BALL_SIZE - PADDLE_WIDTH;
+                    ballVelocity.X = -ballVelocity.X;
+                    ballVelocity.Y = ((ball.Y + (ball.Height / 2)) - (rightPaddle.Y + (rightPaddle.Height / 2))) / 8;
+                }
+                else
+                {
+                    lPaddlePoints++;
+                    ball.X = viewPort.Width / 2;
+                    ball.Y = viewPort.Height / 2;
+                }
+            }
+
+            if (ball.Y < 0)
+            {
+                ball.Y = 0;
+                ballVelocity.Y = -ballVelocity.Y;
+            }
+            else if (ball.Y + ball.Height > viewPort.Height)
+            {
+                ball.Y = viewPort.Height - ball.Height;
+                ballVelocity.Y = -ballVelocity.Y;
             }
 
             base.Update(gameTime);
@@ -125,6 +193,8 @@ namespace Task4
             spriteBatch.Draw(whiteTexture, leftPaddle, Color.White);
             spriteBatch.Draw(whiteTexture, rightPaddle, Color.White);
             spriteBatch.Draw(whiteTexture, ball, Color.White);
+            spriteBatch.DrawString(font, lPaddlePoints.ToString(), new Vector2(viewPort.Width / 4, 20), Color.AliceBlue);
+            spriteBatch.DrawString(font, rPaddlePoints.ToString(), new Vector2((viewPort.Width * 3) / 4, 20), Color.AliceBlue);
             spriteBatch.End();
 
             base.Draw(gameTime);
