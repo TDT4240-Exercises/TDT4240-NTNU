@@ -26,6 +26,9 @@ namespace Task4
         private Rectangle rightPaddle;
         private Rectangle ball;
         private Vector2 ballVelocity;
+        private double ballVelocityMultiplier = 1.0;
+
+        private const double ballVelocityMultiplierIncrease = 1.1;
 
         private const int PADDLE_WIDTH = 20;
         private const int BALL_SIZE = 10;
@@ -130,6 +133,7 @@ namespace Task4
                 ball.Y = viewPort.Height / 2;
                 lPaddlePoints = 0;
                 rPaddlePoints = 0;
+                ballVelocityMultiplier = 1.0;
             }
         }
 
@@ -148,9 +152,11 @@ namespace Task4
                     break;
 
                 case GameState.PLAYING:
+                    if (ballVelocityMultiplier > 5.0) ballVelocityMultiplier = 5.0;
+
                     // TODO: Add your update logic here
-                    ball.X += (int)ballVelocity.X;
-                    ball.Y += (int)ballVelocity.Y;
+                    ball.X += (int)(ballVelocity.X * ballVelocityMultiplier);
+                    ball.Y += (int)(ballVelocity.Y * ballVelocityMultiplier);
 
                     //Bounce left wall
                     if (ball.X < PADDLE_WIDTH)
@@ -158,6 +164,7 @@ namespace Task4
                         if (ball.Y + ball.Height > leftPaddle.Y && ball.Y < leftPaddle.Y + leftPaddle.Height)
                         {
                             ball.X = PADDLE_WIDTH;
+                            ballVelocityMultiplier *= ballVelocityMultiplierIncrease;
                             ballVelocity.X = -ballVelocity.X;
                             ballVelocity.Y = ((ball.Y + (ball.Height / 2)) - (leftPaddle.Y + (leftPaddle.Height / 2))) / 8;
                         }
@@ -166,6 +173,7 @@ namespace Task4
                             rPaddlePoints++;
                             ball.X = viewPort.Width / 2;
                             ball.Y = viewPort.Height / 2;
+                            ballVelocityMultiplier = 1.0;
                         }
                     }
 
@@ -175,6 +183,7 @@ namespace Task4
                         if (ball.Y + ball.Height > rightPaddle.Y && ball.Y < rightPaddle.Y + rightPaddle.Height)
                         {
                             ball.X = viewPort.Width - BALL_SIZE - PADDLE_WIDTH;
+                            ballVelocityMultiplier *= ballVelocityMultiplierIncrease;
                             ballVelocity.X = -ballVelocity.X;
                             ballVelocity.Y = ((ball.Y + (ball.Height / 2)) - (rightPaddle.Y + (rightPaddle.Height / 2))) / 8;
                         }
@@ -183,6 +192,7 @@ namespace Task4
                             lPaddlePoints++;
                             ball.X = viewPort.Width / 2;
                             ball.Y = viewPort.Height / 2;
+                            ballVelocityMultiplier = 1.0;
                         }
                     }
 
@@ -228,6 +238,7 @@ namespace Task4
             spriteBatch.Draw(whiteTexture, ball, Color.White);
             spriteBatch.DrawString(font, lPaddlePoints.ToString(), new Vector2(viewPort.Width / 4, 20), Color.AliceBlue);
             spriteBatch.DrawString(font, rPaddlePoints.ToString(), new Vector2((viewPort.Width * 3) / 4, 20), Color.AliceBlue);
+            spriteBatch.DrawString(font, "Speed: " + (int)(3.0 * ballVelocityMultiplier), new Vector2((viewPort.Width / 2) - 30, viewPort.Height - 30), Color.AliceBlue);
 
             switch (state)
             {
