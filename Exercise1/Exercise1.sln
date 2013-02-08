@@ -11,7 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task3", "Task3\Task3.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task4", "Task4\Task4.csproj", "{721649AA-036D-42F0-8816-BF4C07A9E5B5}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "PongContent", "PongContent\PongContent.contentproj", "{35FFDCE7-1C00-4E4C-8FC4-BD7A1BD229A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PongContent", "PongContent\PongContent.contentproj", "{35FFDCE7-1C00-4E4C-8FC4-BD7A1BD229A6}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Content2", "Content2\Content2.contentproj", "{35269662-6235-4546-88CD-07D554A43E55}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Content3", "Content3\Content3.contentproj", "{85804029-0EBB-4D62-8E8E-F3979A7596D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +57,14 @@ Global
 		{35FFDCE7-1C00-4E4C-8FC4-BD7A1BD229A6}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{35FFDCE7-1C00-4E4C-8FC4-BD7A1BD229A6}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{35FFDCE7-1C00-4E4C-8FC4-BD7A1BD229A6}.Release|x86.ActiveCfg = Debug|Any CPU
+		{35269662-6235-4546-88CD-07D554A43E55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35269662-6235-4546-88CD-07D554A43E55}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{35269662-6235-4546-88CD-07D554A43E55}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{35269662-6235-4546-88CD-07D554A43E55}.Release|x86.ActiveCfg = Debug|Any CPU
+		{85804029-0EBB-4D62-8E8E-F3979A7596D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85804029-0EBB-4D62-8E8E-F3979A7596D2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{85804029-0EBB-4D62-8E8E-F3979A7596D2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{85804029-0EBB-4D62-8E8E-F3979A7596D2}.Release|x86.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

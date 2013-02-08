@@ -36,6 +36,15 @@ namespace Task4
         private int lPaddlePoints = 0;
         private int rPaddlePoints = 0;
 
+        private enum GameState
+        {
+            START,
+            PLAYING,
+            GAMEOVER
+        };
+
+        GameState state = GameState.START;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -113,6 +122,15 @@ namespace Task4
             if (rPlayerUp ^ rPlayerDn)
                 if (rPlayerUp)  rightPaddle.Y -= rPaddleMovementSpeed;
                 else            rightPaddle.Y += rPaddleMovementSpeed;
+
+            if (state != GameState.PLAYING && keyboard.IsKeyDown(Keys.Space))
+            {
+                state = GameState.PLAYING;
+                ball.X = viewPort.Width / 2;
+                ball.Y = viewPort.Height / 2;
+                lPaddlePoints = 0;
+                rPaddlePoints = 0;
+            }
         }
 
         /// <summary>
@@ -124,58 +142,73 @@ namespace Task4
         {
             HandleInput(gameTime);
 
+            switch (state)
+            {
+                case GameState.START:
+                    break;
+
+                case GameState.PLAYING:
+                    // TODO: Add your update logic here
+                    ball.X += (int)ballVelocity.X;
+                    ball.Y += (int)ballVelocity.Y;
+
+                    //Bounce left wall
+                    if (ball.X < PADDLE_WIDTH)
+                    {
+                        if (ball.Y + ball.Height > leftPaddle.Y && ball.Y < leftPaddle.Y + leftPaddle.Height)
+                        {
+                            ball.X = PADDLE_WIDTH;
+                            ballVelocity.X = -ballVelocity.X;
+                            ballVelocity.Y = ((ball.Y + (ball.Height / 2)) - (leftPaddle.Y + (leftPaddle.Height / 2))) / 8;
+                        }
+                        else
+                        {
+                            rPaddlePoints++;
+                            ball.X = viewPort.Width / 2;
+                            ball.Y = viewPort.Height / 2;
+                        }
+                    }
+
+                    //Bounce right wall
+                    else if (ball.X + BALL_SIZE > viewPort.Width - PADDLE_WIDTH)
+                    {
+                        if (ball.Y + ball.Height > rightPaddle.Y && ball.Y < rightPaddle.Y + rightPaddle.Height)
+                        {
+                            ball.X = viewPort.Width - BALL_SIZE - PADDLE_WIDTH;
+                            ballVelocity.X = -ballVelocity.X;
+                            ballVelocity.Y = ((ball.Y + (ball.Height / 2)) - (rightPaddle.Y + (rightPaddle.Height / 2))) / 8;
+                        }
+                        else
+                        {
+                            lPaddlePoints++;
+                            ball.X = viewPort.Width / 2;
+                            ball.Y = viewPort.Height / 2;
+                        }
+                    }
+
+                    if (ball.Y < 0)
+                    {
+                        ball.Y = 0;
+                        ballVelocity.Y = -ballVelocity.Y;
+                    }
+                    else if (ball.Y + ball.Height > viewPort.Height)
+                    {
+                        ball.Y = viewPort.Height - ball.Height;
+                        ballVelocity.Y = -ballVelocity.Y;
+                    }
+                    break;
+
+                case GameState.GAMEOVER:
+                    break;
+            }
+
+            if (lPaddlePoints == 21 || rPaddlePoints == 21) state = GameState.GAMEOVER;
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
-            ball.X += (int)ballVelocity.X;
-            ball.Y += (int)ballVelocity.Y;
-
-            //Bounce left wall
-            if (ball.X < PADDLE_WIDTH)
-            {
-                if (ball.Y + ball.Height > leftPaddle.Y && ball.Y < leftPaddle.Y + leftPaddle.Height)
-                {
-                    ball.X = PADDLE_WIDTH;
-                    ballVelocity.X = -ballVelocity.X;
-                    ballVelocity.Y = ((ball.Y + (ball.Height / 2)) - (leftPaddle.Y + (leftPaddle.Height / 2))) / 8;
-                }
-                else
-                {
-                    rPaddlePoints++;
-                    ball.X = viewPort.Width / 2;
-                    ball.Y = viewPort.Height / 2;
-                }
-            }
-
-            //Bounce right wall
-            else if (ball.X + BALL_SIZE > viewPort.Width - PADDLE_WIDTH)
-            {
-                if (ball.Y + ball.Height > rightPaddle.Y && ball.Y < rightPaddle.Y + rightPaddle.Height)
-                {
-                    ball.X = viewPort.Width - BALL_SIZE - PADDLE_WIDTH;
-                    ballVelocity.X = -ballVelocity.X;
-                    ballVelocity.Y = ((ball.Y + (ball.Height / 2)) - (rightPaddle.Y + (rightPaddle.Height / 2))) / 8;
-                }
-                else
-                {
-                    lPaddlePoints++;
-                    ball.X = viewPort.Width / 2;
-                    ball.Y = viewPort.Height / 2;
-                }
-            }
-
-            if (ball.Y < 0)
-            {
-                ball.Y = 0;
-                ballVelocity.Y = -ballVelocity.Y;
-            }
-            else if (ball.Y + ball.Height > viewPort.Height)
-            {
-                ball.Y = viewPort.Height - ball.Height;
-                ballVelocity.Y = -ballVelocity.Y;
-            }
+            
 
             base.Update(gameTime);
         }
@@ -195,8 +228,26 @@ namespace Task4
             spriteBatch.Draw(whiteTexture, ball, Color.White);
             spriteBatch.DrawString(font, lPaddlePoints.ToString(), new Vector2(viewPort.Width / 4, 20), Color.AliceBlue);
             spriteBatch.DrawString(font, rPaddlePoints.ToString(), new Vector2((viewPort.Width * 3) / 4, 20), Color.AliceBlue);
-            spriteBatch.End();
 
+            switch (state)
+            {
+                case GameState.START:
+                    // Write "Press space to play"
+                    spriteBatch.DrawString(font, "Press SPACE to play", new Vector2((viewPort.Width / 2) - 100, (viewPort.Height / 2) - 40), Color.AliceBlue);
+                    break;
+
+                case GameState.GAMEOVER:
+                    // Write winner and "Press space to play again"
+                    int winnerPosX = (viewPort.Width / 4) * (lPaddlePoints > rPaddlePoints ? 1 : 3);
+                    spriteBatch.DrawString(font, "Press SPACE to play again", new Vector2((viewPort.Width / 2) - 140, (viewPort.Height / 2) - 135), Color.AliceBlue);
+                    spriteBatch.DrawString(font, "Winner", new Vector2(winnerPosX - 30, (viewPort.Height / 2) - 40), Color.AliceBlue);
+                    break;
+
+                default:
+                    break;
+            }
+
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

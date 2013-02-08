@@ -26,7 +26,7 @@ namespace Exercise1
         public Task2Game()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = "Content2";
         }
 
         /// <summary>
