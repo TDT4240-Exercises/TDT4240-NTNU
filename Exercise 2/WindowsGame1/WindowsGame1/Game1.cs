@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Exercise2
 {
+
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -18,11 +19,18 @@ namespace Exercise2
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont font;
+
+        private FrameCounter counter;
+        private Observer observer;
 
         public Exercise2Game()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            counter = new FrameCounter();
+            observer = counter;
         }
 
         /// <summary>
@@ -46,6 +54,7 @@ namespace Exercise2
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            font = Content.Load<SpriteFont>("SpriteFont1");
 
             // TODO: use this.Content to load your game content here
         }
@@ -81,8 +90,12 @@ namespace Exercise2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            observer.notify();
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, counter.getCounter() + "", new Vector2(0, 0), Color.AliceBlue);
+            spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
